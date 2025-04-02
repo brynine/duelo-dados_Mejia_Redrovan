@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duelo de Dados</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Incluimos la biblioteca jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>DUELO DE DADOS</h1>
+    <p>¡Lanza los dados y suma puntos en tres rondas para ganar!</p>
+
+    <div id="game">
+      <div class="player" id="player1">
+        <h2>Jugador 1</h2>
+        <!-- Usamos una imagen para el dado del Jugador 1 -->
+        <img
+          id="dice1"
+          src="file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara1.jpg"
+          alt="Dado Jugador 1"
+          width="100"
+        />
+        <p>Puntos: <span id="score1">0</span></p>
+      </div>
+      <div class="player" id="player2">
+        <h2>Jugador 2</h2>
+        <!-- Usamos una imagen para el dado del Jugador 2 -->
+        <img
+          id="dice2"
+          src="file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara1.jpg"
+          alt="Dado Jugador 2"
+          width="100"
+        />
+        <p>Puntos: <span id="score2">0</span></p>
+      </div>
+    </div>
+
+    <p>
+      Ronda: <span id="round">1</span> | Turno de:
+      <span id="turn">Jugador 1</span>
+    </p>
+    <button id="rollDice">Lanzar Dado</button>
+    <button id="restart">Reiniciar Juego</button>
+
+    <h2 id="winner"></h2>
+
+    <!-- Tu archivo script.js -->
+    <script src="script.js"></script>
+  </body>
+</html>
