@@ -7,28 +7,22 @@ function rollDice() {
     const dice = [document.getElementById("dice1"), document.getElementById("dice2")];
     const scoreElements = [document.getElementById("score1"), document.getElementById("score2")];
     
-    // Generar un número aleatorio entre 1 y 6 para simular el lanzamiento de un dado
     let roll = Math.floor(Math.random() * 6) + 1;
     
-    // Sumar el resultado al puntaje del jugador actual
     scores[currentPlayer] += roll;
     scoreElements[currentPlayer].textContent = scores[currentPlayer];
-    
-    // Reiniciar animación para mostrar el dado rodando
+ 
     dice[currentPlayer].classList.remove("rolling");
-    void dice[currentPlayer].offsetWidth; // Forzar reflujo para reiniciar animación
+    void dice[currentPlayer].offsetWidth;
     dice[currentPlayer].classList.add("rolling");
-    
-    // Actualizar el dado con la imagen correspondiente
+
     dice[currentPlayer].src = getDiceFace(roll);
 
-    // Si es el turno del segundo jugador, avanzamos la ronda
     if (currentPlayer === 1) {
         round++;
         document.getElementById("round").textContent = round;
     }
     
-    // Si se han superado las rondas máximas, se determina el ganador
     if (round > maxRounds) {
         determineWinner();
         document.getElementById("rollDice").disabled = true;
