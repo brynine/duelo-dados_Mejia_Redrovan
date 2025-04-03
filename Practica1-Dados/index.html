@@ -4,49 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Duelo de Dados</title>
-    <link rel="stylesheet" href="styles.css" />
-    <!-- Incluimos la biblioteca jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles_dados.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="script_dados.js" defer></script>
   </head>
   <body>
-    <h1>DUELO DE DADOS</h1>
+    <h1>Duelo de Dados</h1>
     <p>¡Lanza los dados y suma puntos en tres rondas para ganar!</p>
+
+    <div>
+      <label for="name1">Nombre Jugador 1:</label>
+      <input type="text" id="name1" placeholder="Jugador 1" />
+      <label for="name2">Nombre Jugador 2:</label>
+      <input type="text" id="name2" placeholder="Jugador 2" />
+      <button id="setNames">Guardar Nombres</button>
+    </div>
 
     <div id="game">
       <div class="player" id="player1">
-        <h2>Jugador 1</h2>
-        <!-- Usamos una imagen para el dado del Jugador 1 -->
-        <img
-          id="dice1"
-          src="file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara1.jpg"
-          alt="Dado Jugador 1"
-          width="100"
-        />
+        <h2 id="player1Name">Jugador 1</h2>
+        <img id="dice1" src="img/cara1.jpg" alt="Dado Jugador 1" width="100" />
         <p>Puntos: <span id="score1">0</span></p>
       </div>
       <div class="player" id="player2">
-        <h2>Jugador 2</h2>
-        <!-- Usamos una imagen para el dado del Jugador 2 -->
-        <img
-          id="dice2"
-          src="file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara1.jpg"
-          alt="Dado Jugador 2"
-          width="100"
-        />
+        <h2 id="player2Name">Jugador 2</h2>
+        <img id="dice2" src="img/cara1.jpg" alt="Dado Jugador 2" width="100" />
         <p>Puntos: <span id="score2">0</span></p>
+      </div>
+
+      <div class="roundHistory">
+        <h4>Historial de Rondas</h4>
+        <div id="history1">
+          <h4 id="history1Name">Jugador 1:</h4>
+          <ul id="history1List"></ul>
+        </div>
+      </div>
+      <div class="roundHistory2">
+        <h4>Historial de Rondas</h4>
+        <div id="history2">
+          <h4 id="history2Name">Jugador 2:</h4>
+          <ul id="history2List"></ul>
+        </div>
       </div>
     </div>
 
-    <p>
-      Ronda: <span id="round">1</span> | Turno de:
-      <span id="turn">Jugador 1</span>
-    </p>
+    <p>Turno de: <span id="turn">Jugador 1</span></p>
+    <p>Ronda actual: <span id="currentRound">1</span> / 3</p>
     <button id="rollDice">Lanzar Dado</button>
     <button id="restart">Reiniciar Juego</button>
 
     <h2 id="winner"></h2>
-
-    <!-- Tu archivo script.js -->
-    <script src="script.js"></script>
+    <p>Mejor Puntuación: <span id="bestScore">0</span></p>
   </body>
 </html>
