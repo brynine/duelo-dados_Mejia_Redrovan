@@ -1,62 +1,79 @@
-let scores = [0, 0];
-let currentPlayer = 0;
-let round = 1;
+let scores = [0, 0]; 
+let currentPlayer = 0; 
+let round = 1; 
 const maxRounds = 3;
+let playerNames = ["Jugador 1", "Jugador 2"];
+const diceSound = new Audio("dice-roll.mp3");
+let bestScore = 0;
+
+function setPlayerNames() {
+    const name1 = document.getElementById("name1").value;
+    const name2 = document.getElementById("name2").value;
+    
+    if (name1) playerNames[0] = name1;
+    if (name2) playerNames[1] = name2;
+    
+    document.getElementById("player1Name").textContent = playerNames[0];
+    document.getElementById("player2Name").textContent = playerNames[1];
+    document.getElementById("history1Name").textContent = playerNames[0] + ":";
+    document.getElementById("history2Name").textContent = playerNames[1] + ":";
+
+    document.getElementById("turn").textContent = `Turno de: ${playerNames[currentPlayer]}`;
+    document.getElementById("name1").value = "";
+    document.getElementById("name2").value = "";
+}
 
 function rollDice() {
-    const dice = [document.getElementById("dice1"), document.getElementById("dice2")];
-    const scoreElements = [document.getElementById("score1"), document.getElementById("score2")];
-    
+    diceSound.play();
     let roll = Math.floor(Math.random() * 6) + 1;
-    
     scores[currentPlayer] += roll;
-    scoreElements[currentPlayer].textContent = scores[currentPlayer];
- 
-    dice[currentPlayer].classList.remove("rolling");
-    void dice[currentPlayer].offsetWidth;
-    dice[currentPlayer].classList.add("rolling");
+    document.getElementById(`score${currentPlayer + 1}`).textContent = scores[currentPlayer];
+    document.getElementById(`dice${currentPlayer + 1}`).src = getDiceFace(roll);
 
-    dice[currentPlayer].src = getDiceFace(roll);
+    // Agregar al historial
+    let historyElement = document.getElementById(`history${currentPlayer + 1}List`);
+    let historyItem = document.createElement("li");
+    historyItem.textContent = `Ronda ${round}: ${roll} puntos`;
+    historyElement.appendChild(historyItem);
 
+    // Cambiar de jugador
     if (currentPlayer === 1) {
+        if (round === maxRounds) {
+            determineWinner();
+            document.getElementById("rollDice").disabled = true;
+            return;
+        }
         round++;
-        document.getElementById("round").textContent = round;
+        document.getElementById("currentRound").textContent = round;
     }
-    
-    if (round > maxRounds) {
-        determineWinner();
-        document.getElementById("rollDice").disabled = true;
-        return;
-    }
-    
-    // Cambiar al siguiente jugador
-    currentPlayer = 1 - currentPlayer; // Alternar entre 0 y 1
-    document.getElementById("turn").textContent = `Jugador ${currentPlayer + 1}`;
+
+    // Alternar jugador
+    currentPlayer = 1 - currentPlayer;
+    document.getElementById("turn").textContent = ` ${playerNames[currentPlayer]}`;
 }
 
 function getDiceFace(num) {
-    // Las imágenes de los dados para cada número (1-6)
-    const faces = [
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara1.jpg", // Cara 1
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara2.jpg", // Cara 2
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara3.jpg", // Cara 3
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara4.jpg", // Cara 4
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara5.jpg", // Cara 5
-        "file:///C:/Users/bryam/OneDrive - Universidad Politecnica Salesiana/UNIVERSIDAD P66/Programacion y Plataformas Web/Practica1Dados/Practica1-Dados/cara6.jpg"  // Cara 6
-    ];
-    return faces[num - 1]; // Devolver la ruta de la imagen correspondiente
+    return `img/cara${num}.jpg`;
 }
 
 function determineWinner() {
     let winnerText = "";
+    let highestScore = Math.max(scores[0], scores[1]);
+
     if (scores[0] > scores[1]) {
-        winnerText = "¡Jugador 1 gana!";
+        winnerText = `${playerNames[0]} gana!`;
     } else if (scores[1] > scores[0]) {
-        winnerText = "¡Jugador 2 gana!";
+        winnerText = `${playerNames[1]} gana!`;
     } else {
         winnerText = "¡Empate!";
     }
     document.getElementById("winner").textContent = winnerText;
+
+    // Actualizar la mejor puntuación si es mayor a la anterior
+    if (highestScore > bestScore) {
+        bestScore = highestScore;
+        document.getElementById("bestScore").textContent = bestScore;
+    }
 }
 
 function restartGame() {
@@ -65,14 +82,16 @@ function restartGame() {
     round = 1;
     document.getElementById("score1").textContent = "0";
     document.getElementById("score2").textContent = "0";
-    document.getElementById("round").textContent = "1";
-    document.getElementById("turn").textContent = "Jugador 1";
+    document.getElementById("currentRound").textContent = "1";
+    document.getElementById("turn").textContent = ` ${playerNames[0]}`;
     document.getElementById("winner").textContent = "";
     document.getElementById("rollDice").disabled = false;
-    document.getElementById("dice1").src = "file:///C:/Users/Atlas/Documents/yo/cara1.jpg";
-    document.getElementById("dice2").src = "file:///C:/Users/Atlas/Documents/yo/cara1.jpg";
+    document.getElementById("dice1").src = "img/cara1.jpg";
+    document.getElementById("dice2").src = "img/cara1.jpg";
+    document.getElementById("history1List").innerHTML = "";
+    document.getElementById("history2List").innerHTML = "";
 }
 
-// Eventos para los botones
+document.getElementById("setNames").addEventListener("click", setPlayerNames);
 document.getElementById("rollDice").addEventListener("click", rollDice);
 document.getElementById("restart").addEventListener("click", restartGame);
